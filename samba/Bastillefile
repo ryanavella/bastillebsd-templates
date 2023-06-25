@@ -1,0 +1,11 @@
+PKG samba413
+SYSRC samba_server_enable=yes
+CP usr /
+CMD pw groupadd samba
+CMD echo password | pw useradd -n guest -c "guest" -d /dev/null -s /sbin/nologin -h 0
+CMD printf "password\npassword\n" | smbpasswd -a guest
+CMD mkdir -p /smbshare/private
+CMD mkdir -p /smbshare/public
+CMD chown -R root:samba /smbshare/
+CMD chmod -R 775 /smbshare/
+SERVICE samba_server start
